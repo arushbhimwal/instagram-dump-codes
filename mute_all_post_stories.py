@@ -4,6 +4,7 @@ import webbrowser
 import pyautogui
 import time
 from bs4 import BeautifulSoup
+from PIL import Image
 
 # Function to parse the HTML file and extract the list of people
 def extract_people_from_html(file_path):
@@ -18,13 +19,12 @@ request_file = 'following.html'
 
 # Extract the lists of people you follow and who follow you
 following = extract_people_from_html(request_file)
-muted = extract_people_from_html(request_file)
 
 # except my id's
 me = ["arush_bhimwal","amextaken","arush.onion","majestical_gaming","horizon_personal_computers","arcanebyte.games"]
 
 # Find people you follow who don't follow you back
-request = [person for person in following if person not in me and person not in muted]
+request = [person for person in following if person not in me ]
 
 # Create a list of profile links for people who don't follow you back
 request_with_links = [f'https://www.instagram.com/{person}/' for person in request]
@@ -81,21 +81,35 @@ class LinkOpenerApp:
             pyautogui.press('enter')  # Click the 'Following' button
             time.sleep(1)
 
-            # Locate and click the 'Unfollow' button
+            # Locate and click the 'mute' button
             pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
             pyautogui.typewrite('mute')
             pyautogui.press('esc')  # Close the find dialog
             pyautogui.press('enter')  # Click the 'mute' button
 
-            pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
-            pyautogui.typewrite('posts')
-            pyautogui.press('esc')  # Close the find dialog
-            pyautogui.press('enter')  # Click the 'posts' button
+            screenshot = pyautogui.screenshot()
+            x1, y1 = 1165,524
+            x2, y2 = 1165,588
+            color1 = screenshot.getpixel((x1, y1))
+            color2 = screenshot.getpixel((x2, y2))
 
-            pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
-            pyautogui.typewrite('stories')
-            pyautogui.press('esc')  # Close the find dialog
-            pyautogui.press('enter')  # Click the 'stories' button
+            if color1 == (38, 38, 38):
+                pyautogui.typewrite('posts')
+                pyautogui.press('esc')  # Close the find dialog
+                pyautogui.press('enter')  # Click the 'posts' button
+                pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
+                print("post muted")
+            else:
+                pass
+
+            if color2 == (38, 38, 38):
+                pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
+                pyautogui.typewrite('stories')
+                pyautogui.press('esc')  # Close the find dialog
+                pyautogui.press('enter')  # Click the 'stories' button
+                print("story muted")
+            else:
+                pass
             
             pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
             pyautogui.typewrite('save')
@@ -122,3 +136,7 @@ for url in request_with_links:
 
 # Start the main loop
 root.mainloop()
+
+
+
+
