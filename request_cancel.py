@@ -1,4 +1,3 @@
-
 import tkinter as tk
 import webbrowser
 import pyautogui
@@ -74,14 +73,14 @@ class LinkOpenerApp:
             pyautogui.typewrite('Requested')
             pyautogui.press('esc')  # Close the find dialog
             pyautogui.press('enter')  # Click the 'Following' button
-            time.sleep(1)
+            time.sleep(3)
 
             # Locate and click the 'Unfollow' button
             pyautogui.hotkey('ctrl', 'f')  # Open the find dialog
             pyautogui.typewrite('Unfollow')
             pyautogui.press('esc')  # Close the find dialog
             pyautogui.press('enter')  # Click the 'Unfollow' button
-            time.sleep(1)
+            time.sleep(3)
             print("Unfollowed user")
         except Exception as e:
             print(f"Could not unfollow user: {e}")
@@ -93,7 +92,7 @@ app = LinkOpenerApp(root)
 # Unfollow users who don't follow you back
 for url in request_with_links:
     app.open_next_link()
-    time.sleep(4)  # Wait for the page to load
+    time.sleep(6)  # Wait for the page to load
     app.unfollow_user()
 
 # Start the main loop
